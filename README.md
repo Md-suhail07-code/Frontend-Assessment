@@ -1,16 +1,69 @@
-# React + Vite
+# Frontend Assessment App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a React application built with Vite and Tailwind CSS. It includes a login page, dashboard, and referral data views.
 
-Currently, two official plugins are available:
+## What this app does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Lets a user sign in with email and password.
+- Stores auth token in cookies after successful login.
+- Shows referral dashboard data on the main page.
+- Displays detail view for individual referrals.
+- Uses React Router for page navigation.
 
-## React Compiler
+## Main project structure
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- `src/main.jsx` - app entry point and router setup.
+- `src/App.jsx` - defines app routes like `/login`, `/`, and fallback paths.
+- `src/pages/Login.jsx` - login screen with form, validation, and API call.
+- `src/pages/Dashboard.jsx` - dashboard page that fetches referral data and passes it to child components.
+- `src/pages/ReferralDetails.jsx` - single referral detail page.
+- `src/components/` - reusable UI parts like `Navbar`, `Overview`, `ReferralTable`, and `FooterComp`.
+- `src/config/api.js` - axios instance configured with base URL and auth token header.
+- `src/index.css` - global styles and Tailwind import.
 
-## Expanding the ESLint configuration
+## How to run it
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the dev server:
+   ```bash
+   npm run dev
+   ```
+3. Open the app in the browser at the local Vite URL (usually `http://localhost:5173`).
+
+## Available scripts
+
+- `npm run dev` - starts the development server.
+- `npm run build` - creates a production build.
+- `npm run preview` - previews the production build locally.
+- `npm run lint` - checks code with ESLint.
+
+## Dependencies used
+
+- `react`, `react-dom` - app framework.
+- `react-router-dom` - routing between pages.
+- `axios` - sending API requests.
+- `js-cookie` - storing authentication token.
+- `lucide-react` - icons library.
+- `tailwindcss` and `@tailwindcss/vite` - utility-first styling.
+
+## How the login works
+
+- User enters email and password on `/login`.
+- The form calls the API endpoint `auth/signin`.
+- On success, the app saves a token in cookies and redirects to `/`.
+- If login fails, an error message appears.
+
+## How the dashboard works
+
+- The dashboard reads the saved token from cookies.
+- It requests referral data from the API endpoint `referrals`.
+- Dashboard child components show metrics, service summary, referral link, and referral table.
+- Search and sort options update the API request parameters.
+
+## Protected Route
+
+- Restricts a unauthorized user to access dashboard and referral details page, by checking the token exists in the cookies.
+- A Logged out user can also be not able to access dashboard and referral details page because cookies are cleared when user logs out.
